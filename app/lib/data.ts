@@ -57,7 +57,7 @@ export async function fetchLatestInvoices() {
 }
 
 export async function fetchCardData() {
-  //noStore();
+  noStore();
   try {
     // You can probably combine these into a single SQL query
     // However, we are intentionally splitting them to demonstrate
@@ -68,7 +68,7 @@ export async function fetchCardData() {
          SUM(CASE WHEN status = 'paid' THEN amount ELSE 0 END) AS "paid",
          SUM(CASE WHEN status = 'pending' THEN amount ELSE 0 END) AS "pending"
          FROM invoices`;
-
+         await new Promise((resolve) => setTimeout(resolve, 2000)); 
     const data = await Promise.all([
       invoiceCountPromise,
       customerCountPromise,
@@ -97,7 +97,7 @@ export async function fetchFilteredInvoices(
   query: string,
   currentPage: number,
 ) {
-  //noStore();
+  noStore();
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
 
   try {
@@ -130,7 +130,7 @@ export async function fetchFilteredInvoices(
 }
 
 export async function fetchInvoicesPages(query: string) {
-  //noStore();
+  noStore();
   try {
     const count = await sql`SELECT COUNT(*)
     FROM invoices
